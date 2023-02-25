@@ -1,8 +1,8 @@
 <?php
 
 require_once __DIR__."/Spiel.php";
-require_once __DIR__."/dienst/Dienstart.php";
-require_once __DIR__."/dienst/Dienst.php";
+require_once __DIR__."/../dienst/Dienstart.php";
+require_once __DIR__."/../dienst/Dienst.php";
 require_once __DIR__."/NahgelegeneSpiele.php";
 
 class SpieleListe{

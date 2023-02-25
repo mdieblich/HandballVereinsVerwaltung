@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__."/Verein.php";
-require_once __DIR__."/MannschaftsMeldung.php";
+require_once __DIR__."/spielbetrieb/MannschaftsMeldung.php";
 
 const GESCHLECHT_M = "m";
 const GESCHLECHT_W = "w";

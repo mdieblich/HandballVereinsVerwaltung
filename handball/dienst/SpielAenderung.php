@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__."/../Spiel.php";
+require_once __DIR__."/../spielbetrieb/Spiel.php";
 
 class SpielAenderung{
     public Spiel $alt;

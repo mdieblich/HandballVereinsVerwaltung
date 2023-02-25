@@ -2,7 +2,7 @@
 
 require_once __DIR__."/Meisterschaft.php";
 require_once __DIR__."/Liga.php";
-require_once __DIR__."/Mannschaft.php";
+require_once __DIR__."/../Mannschaft.php";
 
 class MannschaftsMeldung{
     

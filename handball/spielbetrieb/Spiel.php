@@ -1,9 +1,9 @@
 <?php
 
 require_once __DIR__."/MannschaftsMeldung.php";
-require_once __DIR__."/dienst/Dienst.php";
-require_once __DIR__."/../zeit/ZeitRaum.php";
-require_once __DIR__."/../zeit/ZeitlicheDistanz.php";
+require_once __DIR__."/../dienst/Dienst.php";
+require_once __DIR__."/../../zeit/ZeitRaum.php";
+require_once __DIR__."/../../zeit/ZeitlicheDistanz.php";
 
 class Spiel{
 
