@@ -12,8 +12,7 @@ class Mannschaft {
     public string $geschlecht;
     public ?string $jugendklasse;
     public ?string $email;
-
-    // TODO Da Gegner verschwinden, muss das hier ergänzt werden! public bool $stelltSekretaerBeiHeimspiel;
+    public bool $stelltSekretaerBeiHeimspiel;
 
     // TODO referenz auf Meldung entfernen!
     public array $meldungen = array();

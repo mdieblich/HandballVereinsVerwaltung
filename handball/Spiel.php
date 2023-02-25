@@ -1,8 +1,6 @@
 <?php
 
-require_once __DIR__."/Mannschaft.php";
 require_once __DIR__."/MannschaftsMeldung.php";
-require_once __DIR__."/Gegner.php";
 require_once __DIR__."/Dienst.php";
 require_once __DIR__."/../zeit/ZeitRaum.php";
 require_once __DIR__."/../zeit/ZeitlicheDistanz.php";
@@ -17,15 +15,11 @@ class Spiel{
     public int $id;
     
     public int $spielNr;
-    public MannschaftsMeldung $mannschaftsMeldung;
-    
-    // TODO Referenz auf Mannschaft enfternen: Redundant über die Meldung
-    public Mannschaft $mannschaft;
-    public Gegner $gegner;
+    public MannschaftsMeldung $heim;
+    public MannschaftsMeldung $gast;
 
     public ?DateTime $anwurf;
     public int $halle;
-    public bool $heimspiel;
     
     // TODO prüfen: kann auf diese Referenz verzichtet werden?
     public array $dienste = array();
@@ -36,6 +30,10 @@ class Spiel{
             return $this->dienste[$dienstart];
         }
         return null;
+    }
+
+    public function isHeimspiel(): bool{
+        return $this->heim->mannschaft->heimVerein;
     }
 
     // Zeitfunktionen 
@@ -60,7 +58,7 @@ class Spiel{
         }
         $anwurfCopy = clone $this->anwurf;
         $abfahrt = $anwurfCopy->sub(new DateInterval(self::VORBEREITUNG_VOR_ANWURF));
-        if(!$this->heimspiel){
+        if(!$this->isHeimspiel()){
             $abfahrt->sub(new DateInterval(self::FAHRTZEIT_AUSWAERTS));
         }
         return $abfahrt;
@@ -71,7 +69,7 @@ class Spiel{
             return null;
         }
         $rueckkehr = $this->getSpielEnde()->add(new DateInterval(self::NACHBEREITUNG_NACH_ENDE));
-        if(!$this->heimspiel){
+        if(!$this->isHeimspiel()){
             $rueckkehr = $rueckkehr->add(new DateInterval(self::FAHRTZEIT_AUSWAERTS));
         }
         return $rueckkehr;
@@ -120,15 +118,15 @@ class Spiel{
     }
 
     public function createDienste(){
-        if($this->heimspiel){
+        if($this->isHeimspiel()){
             $this->createDienst(Dienstart::ZEITNEHMER);
             $this->createDienst(Dienstart::CATERING);
-            if($this->gegner->stelltSekretaerBeiHeimspiel){
+            if($this->gast->mannschaft->stelltSekretaerBeiHeimspiel){
                 // wenn der Gegner beim Heimspiel den Sekretär stellt, so müssen wir das auch
                 $this->createDienst(Dienstart::SEKRETAER);
             }
         } else {
-            if(!$this->gegner->stelltSekretaerBeiHeimspiel){
+            if(!$this->gast->mannschaft->stelltSekretaerBeiHeimspiel){
                 $this->createDienst(Dienstart::SEKRETAER);
             }
         }
@@ -143,14 +141,11 @@ class Spiel{
 
     public function getBegegnungsbezeichnung(): string{
         $anwurf = $this->anwurf->format("d.m.Y H:i");
-        $mannschaftsName = $this->mannschaft->getName();
-        $gegnerName = $this->gegner->getName();
+        $heimName = $this->heim->mannschaft->getName();
+        $gastName = $this->gast->mannschaft->getName();
+        $kennungHEIM = $this->isHeimspiel() ? "HEIM" : "AUSWÄRTS";
         
-        if($this->heimspiel){
-            return "$anwurf HEIM (".$this->halle.") $mannschaftsName vs. $gegnerName";
-        } else{
-            return "$anwurf AUSWÄRTS (".$this->halle.") $gegnerName vs. $mannschaftsName";
-        }   
+        return "$anwurf $kennungHEIM (".$this->halle.") $heimName vs. $gastName";
     }
 }
 
