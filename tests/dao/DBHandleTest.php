@@ -106,6 +106,21 @@ final class DBHandleTest extends TestCase
         $value = $dbHandle->get_var("SELECT b FROM A");
         $this->assertEquals(16, $value);
     }
+
+    public function testCanInsertStrings(): void {
+        $dbHandle = $this->createTestDBConnection();
+        $success = $dbHandle->query("DROP TABLE IF EXISTS A");
+        $success = $dbHandle->query("CREATE TABLE A (b VARCHAR(1024))");
+        $this->assertTrue($success);
+
+        // act
+        $array_to_insert = array('b' => 'testCanInsertStrings');
+        $dbHandle->insert("A", $array_to_insert);
+
+        // assert
+        $value = $dbHandle->get_var("SELECT b FROM A");
+        $this->assertEquals('testCanInsertStrings', $value);
+    }
 }
 
 

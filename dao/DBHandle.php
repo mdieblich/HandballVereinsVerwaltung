@@ -36,7 +36,9 @@ class DBHandle{
         $values = array();
         foreach($assoc_array as $fieldName => $value){
             $fieldNames[] = $fieldName;
-            if($value === false){
+            if(is_string($value)){
+                $values[] = "'$value'";
+            } else if($value === false){
                 $values[] = 0;
             } else {
                 $values[] = $value;
