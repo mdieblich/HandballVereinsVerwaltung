@@ -9,6 +9,7 @@ class DBHandle{
     public function __construct($databaseHost, $databaseUsername, $databasePassword, $databaseName){
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         $this->mysqli = new mysqli($databaseHost, $databaseUsername, $databasePassword, $databaseName);
+        $this->prefix = "mwd_";
     }
 
     public function query(string $sql): bool {
