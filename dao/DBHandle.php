@@ -55,7 +55,42 @@ class DBHandle{
     }
 
     public function update(string $table_name, array $valuesToUpdate, array $keysForWhereClause): void {
+
+        $attributesToUpdate = array();
+
+        foreach($valuesToUpdate as $fieldName => $value){
+            $attributeToUpdate = "$fieldName=";
+            if(is_object($value)){
+                throw new InvalidArgumentException("Der Wert für $fieldName ist ein Objekt vom Typ '".get_class($value)."', aber es werden nur primitive Typen unterstützt.");
+            }
+            if(is_string($value)){
+                $attributeToUpdate .= "'$value'";
+            } else if($value === false){
+                $attributeToUpdate .= 0;
+            } else {
+                $attributeToUpdate .= $value;
+            }
+            $attributesToUpdate[] = $attributeToUpdate;
+        }
         
+        $attributesToSearch = array();
+        foreach($keysForWhereClause as $fieldName => $value){
+            $attributeToSearch = "$fieldName=";
+            if(is_object($value)){
+                throw new InvalidArgumentException("Der Wert für $fieldName ist ein Objekt vom Typ '".get_class($value)."', aber es werden nur primitive Typen unterstützt.");
+            }
+            if(is_string($value)){
+                $attributeToSearch .= "'$value'";
+            } else if($value === false){
+                $attributeToSearch .= 0;
+            } else {
+                $attributeToSearch .= $value;
+            }
+            $attributesToSearch[] = $attributeToSearch;
+        }
+        
+        $sql = "UPDATE $table_name SET ".implode(",",$attributesToUpdate)." WHERE ".implode(" AND ",$attributesToSearch )."";
+        $this->mysqli->query($sql);
     }
 }
 
