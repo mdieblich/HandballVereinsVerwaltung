@@ -37,7 +37,6 @@ abstract class DAO{
         }
 
         $table_name = static::tableName($dbhandle);
-        $charset_collate = $dbhandle->get_charset_collate();
 
         $rc = new ReflectionClass(static::entityClassName());
         $idProperties = array(
@@ -75,7 +74,7 @@ abstract class DAO{
         $sql = 
             "CREATE TABLE $table_name (\n"
                 ."\t".implode(", \n\t", $properties)."\n"
-            .") $charset_collate, ENGINE = InnoDB;";
+            ."), ENGINE = InnoDB;";
 
         return $sql;
     }
@@ -111,7 +110,7 @@ abstract class DAO{
             $sql .= " WHERE $where";
         }
 
-        $array = $this->dbhandle->get_row($sql, ARRAY_A);
+        $array = $this->dbhandle->get_row_as_array($sql);
         if(empty($array)){
             return null;
         }
@@ -176,7 +175,7 @@ abstract class DAO{
             $sql .= " ORDER BY $orderBy";
         }
 
-        $rows = $this->dbhandle->get_results($sql, ARRAY_A);    
+        $rows = $this->dbhandle->get_results_as_array($sql);    
         $objects = array();
         foreach($rows as $row) {
             $object = $this->createEntity($row);
