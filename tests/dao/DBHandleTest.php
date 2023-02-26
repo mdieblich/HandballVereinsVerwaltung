@@ -27,7 +27,7 @@ final class DBHandleTest extends TestCase
 
     public function testGet_var(): void {
         $dbHandle = $this->createTestDBConnection();
-        $success = $dbHandle->query("DROP TABLE A");
+        $success = $dbHandle->query("DROP TABLE IF EXISTS A");
         $success = $dbHandle->query("CREATE TABLE A (b int)");
         $this->assertTrue($success);
         $success = $dbHandle->query("INSERT INTO A (b) VALUES (3)");
@@ -39,7 +39,7 @@ final class DBHandleTest extends TestCase
 
     public function testGet_row_as_array(): void {
         $dbHandle = $this->createTestDBConnection();
-        $success = $dbHandle->query("DROP TABLE A");
+        $success = $dbHandle->query("DROP TABLE IF EXISTS A");
         $success = $dbHandle->query("CREATE TABLE A (b int, c VARCHAR(25))");
         $this->assertTrue($success);
         $success = $dbHandle->query("INSERT INTO A (b,c) VALUES (9,'testGet_row_as_array')");
@@ -51,7 +51,7 @@ final class DBHandleTest extends TestCase
     }
     public function testGet_results_as_array(): void {
         $dbHandle = $this->createTestDBConnection();
-        $success = $dbHandle->query("DROP TABLE A");
+        $success = $dbHandle->query("DROP TABLE IF EXISTS A");
         $success = $dbHandle->query("CREATE TABLE A (b int, c VARCHAR(25))");
         $this->assertTrue($success);
         $success = $dbHandle->query("INSERT INTO A (b,c) VALUES (2,'testGet_results_as_array0'), (4,'testGet_results_as_array1')");
