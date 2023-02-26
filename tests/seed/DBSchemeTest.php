@@ -26,8 +26,13 @@ final class DBSchemeTest extends TestCase {
         $this->dbScheme->seed();
 
         // assert
-        $vereinExists = $this->dbHandle->get_var("SELECT EXISTS (SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA='testdb' AND TABLE_NAME='mwd_Verein')");
-        $this->assertEquals(1, $vereinExists);
+        $this->assertTableExists('verein');
+    }
+
+    private function assertTableExists(string $table_name): void {
+        $prefix = $this->dbHandle->prefix;
+        $tableExists = $this->dbHandle->get_var("SELECT EXISTS (SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA='testdb' AND TABLE_NAME='$prefix$table_name')");
+        $this->assertEquals(1, $tableExists);
     }
 
 }
