@@ -138,6 +138,24 @@ final class DBHandleTest extends TestCase
         $array_to_insert = array('b' => $exampleObject);
         $dbHandle->insert("A", $array_to_insert);
     }
+
+    public function testGetInsertedId(): void {
+        $dbHandle = $this->createTestDBConnection();
+        $success = $dbHandle->query("DROP TABLE IF EXISTS A");
+        $success = $dbHandle->query("CREATE TABLE A (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id), b int)");
+        $this->assertTrue($success);
+
+        // act
+        $array_to_insert = array('b' => 16);
+        $dbHandle->insert("A", $array_to_insert);
+        $firstInsertedID = $dbHandle->insert_id;
+        $array_to_insert = array('b' => 17);
+        $dbHandle->insert("A", $array_to_insert);
+        $secondInsertedID = $dbHandle->insert_id;
+
+        // assert
+        $this->assertGreaterThan($firstInsertedID, $secondInsertedID);
+    }
 }
 
 class ExampleClass{

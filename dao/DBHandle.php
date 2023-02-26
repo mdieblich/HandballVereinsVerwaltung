@@ -4,6 +4,7 @@ class DBHandle{
 
     private $mysqli;
     public string $prefix;
+    public ?int $insert_id;
 
     public function __construct($databaseHost, $databaseUsername, $databasePassword, $databaseName){
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -32,6 +33,7 @@ class DBHandle{
     }
 
     public function insert(string $table_name, array $assoc_array): void{
+        $this->insert_id = null;
         $fieldNames = array();
         $values = array();
         foreach($assoc_array as $fieldName => $value){
@@ -49,6 +51,7 @@ class DBHandle{
         }
         $sql = "INSERT INTO $table_name (".implode(",",$fieldNames).") VALUES (".implode(",",$values).")";
         $this->mysqli->query($sql);
+        $this->insert_id = $this->mysqli->insert_id;
     }
 }
 
