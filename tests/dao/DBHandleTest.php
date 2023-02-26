@@ -163,20 +163,44 @@ final class DBHandleTest extends TestCase
         $dbHandle = $this->createTestDBConnection();
         $success = $dbHandle->query("DROP TABLE IF EXISTS A");
         $this->assertTrue($success);
-        $success = $dbHandle->query("CREATE TABLE A (b INT, c INT)");
+        $success = $dbHandle->query("CREATE TABLE A (b VARCHAR(50), c INT)");
         $this->assertTrue($success);
         
-        $success = $dbHandle->query("INSERT INTO A (b,c) VALUES (1,2),(3,4)");
+        $success = $dbHandle->query("INSERT INTO A (b,c) VALUES ('please change',2),('do not change',4)");
         $this->assertTrue($success);
         
         // act
-        $dbHandle->update("A", array('b' => 9), array('c' => 2));
+        $dbHandle->update("A", array('b' => 'changed'), array('c' => 2));
 
         // assert
         $unchangedValueForB = $dbHandle->get_var("SELECT b FROM A where c=4");
-        $this->assertEquals(3, $unchangedValueForB);
+        $this->assertEquals('do not change', $unchangedValueForB);
         $newValueForB = $dbHandle->get_var("SELECT b FROM A where c=2");
-        $this->assertEquals(9, $newValueForB);
+        $this->assertEquals('changed', $newValueForB);
+
+    }
+
+    public function testUpdateWithMultipleKeys(): void {
+        // arrange
+        $dbHandle = $this->createTestDBConnection();
+        $success = $dbHandle->query("DROP TABLE IF EXISTS A");
+        $this->assertTrue($success);
+        $success = $dbHandle->query("CREATE TABLE A (b VARCHAR(50), c INT, d INT)");
+        $this->assertTrue($success);
+        
+        $success = $dbHandle->query("INSERT INTO A (b,c,d) VALUES ('please change',1,1),('do not change',1,2),('do not change',2,1)");
+        $this->assertTrue($success);
+        
+        // act
+        $dbHandle->update("A", array('b' => 'changed'), array('c' => 1, 'd' => 1));
+
+        // assert
+        $unchangedValue0 = $dbHandle->get_var("SELECT b FROM A where c=1 AND d=2");
+        $this->assertEquals('do not change', $unchangedValue0);
+        $unchangedValue1 = $dbHandle->get_var("SELECT b FROM A where c=2 AND d=1");
+        $this->assertEquals('do not change', $unchangedValue1);
+        $changedValue = $dbHandle->get_var("SELECT b FROM A where c=1 AND d=1");
+        $this->assertEquals('changed', $changedValue);
 
     }
 }
