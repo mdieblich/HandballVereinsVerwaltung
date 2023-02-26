@@ -121,6 +121,26 @@ final class DBHandleTest extends TestCase
         $value = $dbHandle->get_var("SELECT b FROM A");
         $this->assertEquals('testCanInsertStrings', $value);
     }
+
+    public function testCanNotInsertOtherTypes(): void {
+        // assert
+        $this->expectException(InvalidArgumentException::class);
+
+        // arrange
+        $dbHandle = $this->createTestDBConnection();
+        $success = $dbHandle->query("DROP TABLE IF EXISTS A");
+        $success = $dbHandle->query("CREATE TABLE A (b int)");
+        $this->assertTrue($success);
+
+        // act
+        $exampleObject = new ExampleClass();
+        $exampleObject->someValue = 99;
+        $array_to_insert = array('b' => $exampleObject);
+        $dbHandle->insert("A", $array_to_insert);
+    }
 }
 
+class ExampleClass{
+    public int $someValue;
+}
 

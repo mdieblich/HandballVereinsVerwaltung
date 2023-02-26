@@ -36,6 +36,9 @@ class DBHandle{
         $values = array();
         foreach($assoc_array as $fieldName => $value){
             $fieldNames[] = $fieldName;
+            if(is_object($value)){
+                throw new InvalidArgumentException("Der Wert für $fieldName ist ein Objekt vom Typ '".get_class($value)."', aber es werden nur primitive Typen unterstützt.");
+            }
             if(is_string($value)){
                 $values[] = "'$value'";
             } else if($value === false){
