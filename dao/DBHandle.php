@@ -36,7 +36,11 @@ class DBHandle{
         $values = array();
         foreach($assoc_array as $fieldName => $value){
             $fieldNames[] = $fieldName;
-            $values[] = $value;
+            if($value === false){
+                $values[] = 0;
+            } else {
+                $values[] = $value;
+            }
         }
         $sql = "INSERT INTO $table_name (".implode(",",$fieldNames).") VALUES (".implode(",",$values).")";
         $this->mysqli->query($sql);

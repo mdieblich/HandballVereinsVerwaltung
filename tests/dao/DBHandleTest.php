@@ -64,6 +64,34 @@ final class DBHandleTest extends TestCase
         $this->assertEquals($expectedArray, $value);
     }
     
+    public function testCanInsertBooleanTrue(): void {
+        $dbHandle = $this->createTestDBConnection();
+        $success = $dbHandle->query("DROP TABLE IF EXISTS A");
+        $success = $dbHandle->query("CREATE TABLE A (b TINYINT)");
+        $this->assertTrue($success);
+
+        // act
+        $array_to_insert = array('b' => true);
+        $dbHandle->insert("A", $array_to_insert);
+
+        // assert
+        $value = $dbHandle->get_var("SELECT b FROM A");
+        $this->assertEquals(1, $value);
+    }
+    public function testCanInsertBooleanFalse(): void {
+        $dbHandle = $this->createTestDBConnection();
+        $success = $dbHandle->query("DROP TABLE IF EXISTS A");
+        $success = $dbHandle->query("CREATE TABLE A (b TINYINT)");
+        $this->assertTrue($success);
+
+        // act
+        $array_to_insert = array('b' => false);
+        $dbHandle->insert("A", $array_to_insert);
+
+        // assert
+        $value = $dbHandle->get_var("SELECT b FROM A");
+        $this->assertEquals(0, $value);
+    }
     public function testCanInsertIntegers(): void {
         $dbHandle = $this->createTestDBConnection();
         $success = $dbHandle->query("DROP TABLE IF EXISTS A");
