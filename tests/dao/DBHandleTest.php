@@ -142,6 +142,7 @@ final class DBHandleTest extends TestCase
     public function testGetInsertedId(): void {
         $dbHandle = $this->createTestDBConnection();
         $success = $dbHandle->query("DROP TABLE IF EXISTS A");
+        $this->assertTrue($success);
         $success = $dbHandle->query("CREATE TABLE A (id INT NOT NULL AUTO_INCREMENT, PRIMARY KEY (id), b int)");
         $this->assertTrue($success);
 
@@ -155,6 +156,28 @@ final class DBHandleTest extends TestCase
 
         // assert
         $this->assertGreaterThan($firstInsertedID, $secondInsertedID);
+    }
+
+    public function testUpdateWithOneKey(): void {
+        // arrange
+        $dbHandle = $this->createTestDBConnection();
+        $success = $dbHandle->query("DROP TABLE IF EXISTS A");
+        $this->assertTrue($success);
+        $success = $dbHandle->query("CREATE TABLE A (b INT, c INT)");
+        $this->assertTrue($success);
+        
+        $success = $dbHandle->query("INSERT INTO A (b,c) VALUES (1,2),(3,4)");
+        $this->assertTrue($success);
+        
+        // act
+        $dbHandle->update("A", array('b' => 9), array('c' => 2));
+
+        // assert
+        $unchangedValueForB = $dbHandle->get_var("SELECT b FROM A where c=4");
+        $this->assertEquals(3, $unchangedValueForB);
+        $newValueForB = $dbHandle->get_var("SELECT b FROM A where c=2");
+        $this->assertEquals(9, $newValueForB);
+
     }
 }
 

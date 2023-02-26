@@ -53,6 +53,10 @@ class DBHandle{
         $this->mysqli->query($sql);
         $this->insert_id = $this->mysqli->insert_id;
     }
+
+    public function update(string $table_name, array $valuesToUpdate, array $keysForWhereClause): void {
+        
+    }
 }
 
 ?>
