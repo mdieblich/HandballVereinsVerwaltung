@@ -38,20 +38,23 @@ class DBHandle{
         $values = array();
         foreach($assoc_array as $fieldName => $value){
             $fieldNames[] = $fieldName;
-            if(is_object($value)){
-                throw new InvalidArgumentException("Der Wert für $fieldName ist ein Objekt vom Typ '".get_class($value)."', aber es werden nur primitive Typen unterstützt.");
-            }
-            if(is_string($value)){
-                $values[] = "'$value'";
-            } else if($value === false){
-                $values[] = 0;
-            } else {
-                $values[] = $value;
-            }
+            $values[] = $this->valueToValidSQL($fieldName, $value);
         }
         $sql = "INSERT INTO $table_name (".implode(",",$fieldNames).") VALUES (".implode(",",$values).")";
         $this->mysqli->query($sql);
         $this->insert_id = $this->mysqli->insert_id;
+    }
+
+    private function valueToValidSQL($fieldName, $value) {
+        if(is_object($value)){
+            throw new InvalidArgumentException("Der Wert für $fieldName ist ein Objekt vom Typ '".get_class($value)."', aber es werden nur primitive Typen unterstützt.");
+        }
+        if(is_string($value)){
+            return "'$value'";
+        } else if($value === false){
+            return 0;
+        }
+        return $value;
     }
 
     public function update(string $table_name, array $valuesToUpdate, array $keysForWhereClause): void {
@@ -59,34 +62,12 @@ class DBHandle{
         $attributesToUpdate = array();
 
         foreach($valuesToUpdate as $fieldName => $value){
-            $attributeToUpdate = "$fieldName=";
-            if(is_object($value)){
-                throw new InvalidArgumentException("Der Wert für $fieldName ist ein Objekt vom Typ '".get_class($value)."', aber es werden nur primitive Typen unterstützt.");
-            }
-            if(is_string($value)){
-                $attributeToUpdate .= "'$value'";
-            } else if($value === false){
-                $attributeToUpdate .= 0;
-            } else {
-                $attributeToUpdate .= $value;
-            }
-            $attributesToUpdate[] = $attributeToUpdate;
+            $attributesToUpdate[] = "$fieldName=".$this->valueToValidSQL($fieldName, $value);
         }
         
         $attributesToSearch = array();
         foreach($keysForWhereClause as $fieldName => $value){
-            $attributeToSearch = "$fieldName=";
-            if(is_object($value)){
-                throw new InvalidArgumentException("Der Wert für $fieldName ist ein Objekt vom Typ '".get_class($value)."', aber es werden nur primitive Typen unterstützt.");
-            }
-            if(is_string($value)){
-                $attributeToSearch .= "'$value'";
-            } else if($value === false){
-                $attributeToSearch .= 0;
-            } else {
-                $attributeToSearch .= $value;
-            }
-            $attributesToSearch[] = $attributeToSearch;
+            $attributesToSearch[] = "$fieldName=".$this->valueToValidSQL($fieldName, $value);
         }
         
         $sql = "UPDATE $table_name SET ".implode(",",$attributesToUpdate)." WHERE ".implode(" AND ",$attributesToSearch )."";
