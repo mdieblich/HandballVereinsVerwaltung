@@ -63,6 +63,21 @@ final class DBHandleTest extends TestCase
         $expectedArray[] = array('b' => 4, 'c' => 'testGet_results_as_array1');
         $this->assertEquals($expectedArray, $value);
     }
+    
+    public function testCanInsertIntegers(): void {
+        $dbHandle = $this->createTestDBConnection();
+        $success = $dbHandle->query("DROP TABLE IF EXISTS A");
+        $success = $dbHandle->query("CREATE TABLE A (b int)");
+        $this->assertTrue($success);
+
+        // act
+        $array_to_insert = array('b' => 16);
+        $dbHandle->insert("A", $array_to_insert);
+
+        // assert
+        $value = $dbHandle->get_var("SELECT b FROM A");
+        $this->assertEquals(16, $value);
+    }
 }
 
 

@@ -31,11 +31,15 @@ class DBHandle{
         return $result->fetch_all(MYSQLI_ASSOC);
     }
 
-    public function insert(string $table_name, array $assoc_array){
-        
-        // TODO SQL befüllen
-        $sql = "INSERT INTO $table_name ($fieldNames) VALUES ($values)";
-        
+    public function insert(string $table_name, array $assoc_array): void{
+        $fieldNames = array();
+        $values = array();
+        foreach($assoc_array as $fieldName => $value){
+            $fieldNames[] = $fieldName;
+            $values[] = $value;
+        }
+        $sql = "INSERT INTO $table_name (".implode(",",$fieldNames).") VALUES (".implode(",",$values).")";
+        $this->mysqli->query($sql);
     }
 }
 
