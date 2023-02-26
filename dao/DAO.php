@@ -2,13 +2,8 @@
 abstract class DAO{
     protected $dbhandle;
 
-    public function __construct($dbhandle = null){
-        if(isset($dbhandle)){
-            $this->dbhandle = $dbhandle;
-        } else{
-            global $wpdb;
-            $this->dbhandle = $wpdb;
-        }
+    public function __construct($dbhandle){
+        $this->dbhandle = $dbhandle;
     }
 
     private static function entityClassName(): string{
@@ -17,11 +12,7 @@ abstract class DAO{
         return $entityClassName;
     }
 
-    public static function tableName($dbhandle = null): string{
-        if(empty($dbhandle)){
-            global $wpdb;
-            $dbhandle = $wpdb;
-        }
+    public static function tableName($dbhandle): string{
         return static::classToTableName(static::entityClassName(), $dbhandle);
     }
 
@@ -30,11 +21,7 @@ abstract class DAO{
         return $dbhandle->prefix.$table_suffix;
     }
 
-    public static function tableCreation($dbhandle = null): string{
-        if(empty($dbhandle)){
-            global $wpdb;
-            $dbhandle = $wpdb;
-        }
+    public static function tableCreation($dbhandle): string{
 
         $table_name = static::tableName($dbhandle);
 
