@@ -61,7 +61,7 @@ abstract class DAO{
         $sql = 
             "CREATE TABLE $table_name (\n"
                 ."\t".implode(", \n\t", $properties)."\n"
-            ."), ENGINE = InnoDB;";
+            .") ENGINE = InnoDB;";
 
         return $sql;
     }
