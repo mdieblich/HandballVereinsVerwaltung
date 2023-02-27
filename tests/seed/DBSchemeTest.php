@@ -16,11 +16,23 @@ final class DBSchemeTest extends TestCase {
             "testdb"
         );
         $this->dbScheme = new DBScheme($this->dbHandle);
-        $this->dbScheme->drop();
     }
 
+    public function testDropsAllTables(): void{
+        // arrange
+        $this->dbHandle->query("CREATE TABLE IF NOT EXISTS ".$this->dbHandle->prefix."mannschaft(id int);");
+        $this->assertTableExists('mannschaft');
+
+        // act
+        $this->dbScheme->dropAllTables();
+
+        // assert
+        $this->assertTableDoesNotExist('mannschaft');
+    }
+    
     public function testCreatesScheme(): void {
         // arrange
+        $this->dbScheme->dropAllTables();
 
         // act
         $this->dbScheme->seed();
@@ -38,9 +50,17 @@ final class DBSchemeTest extends TestCase {
     }
 
     private function assertTableExists(string $table_name): void {
+        $this->assertTableExistanceIs($table_name, 1);
+    }
+
+    private function assertTableExistanceIs(string $table_name, int $present): void {
         $prefix = $this->dbHandle->prefix;
         $tableExists = $this->dbHandle->get_var("SELECT EXISTS (SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA='testdb' AND TABLE_NAME='$prefix$table_name')");
-        $this->assertEquals(1, $tableExists, "Tabelle $table_name nicht gefunden");
+        $this->assertEquals($present, $tableExists, "Tabelle $table_name nicht gefunden");
+    }
+
+    private function assertTableDoesNotExist(string $table_name): void {
+        $this->assertTableExistanceIs($table_name, 0);
     }
 
 }
