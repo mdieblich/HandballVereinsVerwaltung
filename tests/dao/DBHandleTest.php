@@ -180,7 +180,20 @@ final class DBHandleTest extends TestCase
         $this->assertEquals('do not change', $unchangedValue1);
         $changedValue = $this->dbHandle->get_var("SELECT b FROM A where c=1 AND d=1");
         $this->assertEquals('changed', $changedValue);
+    }
 
+    public function testCanCreateWithConfig(): void {
+        // arrange
+        define( 'DB_HOST', 'localhost' );
+        define( 'DB_USER', 'root' );
+        define( 'DB_PASSWORD', '' );
+        define( 'DB_NAME', 'testdb' );
+
+        // act
+        $handleFromConfig = DBHandle::createFromConfig();
+
+        // asert
+        $this->assertNotNull($handleFromConfig);
     }
 }
 

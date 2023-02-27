@@ -12,6 +12,10 @@ class DBHandle{
         $this->prefix = "handball_";
     }
 
+    public static function createFromConfig(): DBHandle {
+        return new DBHandle(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+    }
+
     public function query(string $sql): bool {
         $result = $this->mysqli->query($sql);
         return $result !== false;
