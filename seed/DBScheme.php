@@ -11,7 +11,7 @@ class DBScheme {
     }
 
     public function drop(): void {
-        $sql = "DROP TABLE IF EXISTS ".VereinDAO::table_name($this->dbHandle);
+        $sql = "DROP TABLE IF EXISTS ".VereinDAO::tableName($this->dbHandle);
         $this->dbHandle->query($sql);
     }
 
