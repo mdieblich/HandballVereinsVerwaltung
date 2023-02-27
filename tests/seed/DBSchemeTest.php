@@ -9,7 +9,7 @@ final class DBSchemeTest extends TestCase {
     private DBScheme $dbScheme;
 
     protected function setUp(): void {
-        $this->dbhandle = new DBHandle(
+        $this->dbHandle = new DBHandle(
             "localhost",
             "root",
             "",
@@ -27,12 +27,20 @@ final class DBSchemeTest extends TestCase {
 
         // assert
         $this->assertTableExists('verein');
+        $this->assertTableExists('mannschaft');
+
+        $this->assertTableExists('meisterschaft');
+        $this->assertTableExists('liga');
+        $this->assertTableExists('mannschaftsmeldung');
+        $this->assertTableExists('spiel');
+
+        $this->assertTableExists('dienst');
     }
 
     private function assertTableExists(string $table_name): void {
         $prefix = $this->dbHandle->prefix;
         $tableExists = $this->dbHandle->get_var("SELECT EXISTS (SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA='testdb' AND TABLE_NAME='$prefix$table_name')");
-        $this->assertEquals(1, $tableExists);
+        $this->assertEquals(1, $tableExists, "Tabelle $table_name nicht gefunden");
     }
 
 }
