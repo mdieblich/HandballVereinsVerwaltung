@@ -1,6 +1,6 @@
 <?php
 require_once __DIR__."/../DAO.php";
-require_once __DIR__."/../../handball/MannschaftsMeldung.php";
+require_once __DIR__."/../../handball/spielbetrieb/MannschaftsMeldung.php";
 
 class MannschaftsMeldungDAO extends DAO{
     
