@@ -35,7 +35,6 @@ final class DBSchemeTest extends TestCase {
     
     public function testCreatesScheme(): void {
         // arrange
-        // $this->dbScheme->dropAllTables();
 
         // act
         $this->dbScheme->seed();
