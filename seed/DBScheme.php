@@ -19,8 +19,21 @@ class DBScheme {
         $this->dbHandle = $dbHandle;
     }
 
-    public function drop(): void {
-        $sql = "DROP TABLE IF EXISTS ".VereinDAO::tableName($this->dbHandle);
+    public function dropAllTables(): void {
+        $this->drop("Dienst");
+
+        $this->drop("Spiel");
+        $this->drop("MannschaftsMeldung");
+        $this->drop("Liga");
+        $this->drop("Meisterschaft");
+
+        $this->drop("Mannschaft");
+        $this->drop("Verein");
+    }
+
+    private function drop($entityName): void {
+        $daoName = $entityName."DAO";
+        $sql = "DROP TABLE IF EXISTS ".$daoName::tableName($this->dbHandle);
         $this->dbHandle->query($sql);
     }
 
