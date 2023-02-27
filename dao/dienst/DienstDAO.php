@@ -1,7 +1,7 @@
 <?php
-require_once __DIR__."/DAO.php";
-require_once __DIR__."/../handball/dienst/Dienst.php";
-require_once __DIR__."/../handball/spielbetrieb/Spiel.php";
+require_once __DIR__."/../DAO.php";
+require_once __DIR__."/../../handball/dienst/Dienst.php";
+require_once __DIR__."/../../handball/spielbetrieb/Spiel.php";
 
 class DienstDAO extends DAO{
 
