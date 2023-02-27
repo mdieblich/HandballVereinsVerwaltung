@@ -27,7 +27,7 @@ class DBHandle{
         return $returned_row[0];
     }
 
-    public function get_row_as_array($sql): array{
+    public function get_row_as_array($sql): ?array{
         $result = $this->mysqli->query($sql);
         return $result->fetch_assoc();
     }
