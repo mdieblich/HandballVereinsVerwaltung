@@ -17,6 +17,9 @@ final class DBSchemeTest extends TestCase {
         );
         $this->dbScheme = new DBScheme($this->dbHandle);
     }
+    protected function tearDown(): void {
+        $this->dbScheme->dropAllTables();
+    }
 
     public function testDropsAllTables(): void{
         // arrange
@@ -32,7 +35,7 @@ final class DBSchemeTest extends TestCase {
     
     public function testCreatesScheme(): void {
         // arrange
-        $this->dbScheme->dropAllTables();
+        // $this->dbScheme->dropAllTables();
 
         // act
         $this->dbScheme->seed();

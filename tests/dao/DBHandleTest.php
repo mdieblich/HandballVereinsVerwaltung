@@ -17,7 +17,10 @@ final class DBHandleTest extends TestCase
         $success = $this->dbHandle->query("DROP TABLE IF EXISTS A");
         $this->assertTrue($success);
     }
-
+    
+    protected function tearDown(): void {
+        $this->dbHandle->query("DROP TABLE IF EXISTS A");
+    }
 
     public function testCanCreateConnection(): void {
         $this->assertNotNull($this->dbHandle);
