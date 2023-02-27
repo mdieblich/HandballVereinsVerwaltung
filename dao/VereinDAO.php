@@ -11,5 +11,9 @@ class VereinDAO extends DAO{
 
         return $this->findOrInsert($newVerein);
     }
+
+    function getHeimVerein(): ?Verein {
+        return $this->fetch("heimVerein=1");
+    }
 }
 ?>
