@@ -27,12 +27,12 @@ class DBHandle{
         return $returned_row[0];
     }
 
-    public function get_row_as_array($sql){
+    public function get_row_as_array($sql): array{
         $result = $this->mysqli->query($sql);
         return $result->fetch_assoc();
     }
 
-    public function get_results_as_array($sql){
+    public function get_results_as_array($sql): array{
         $result = $this->mysqli->query($sql);
         return $result->fetch_all(MYSQLI_ASSOC);
     }
