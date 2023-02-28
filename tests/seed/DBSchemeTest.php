@@ -65,5 +65,24 @@ final class DBSchemeTest extends TestCase {
         $this->assertTableExistanceIs($table_name, 0);
     }
 
+    public function testEmptyDatabaseNeedsSeeding(): void {
+        // arrange
+        // act
+        $seedingNeeded = $this->dbScheme->needsSeeding();
+
+        // assert
+        $this->assertTrue($seedingNeeded);
+    }
+
+    public function testSeededDatabaseNeedsNoSeeding(): void {
+        // arrange
+        $this->dbScheme->seed();
+        
+        // act
+        $seedingNeeded = $this->dbScheme->needsSeeding();
+
+        // assert
+        $this->assertFalse($seedingNeeded);
+    }
 }
 ?>

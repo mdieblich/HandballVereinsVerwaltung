@@ -54,6 +54,13 @@ class DBScheme {
         $sql = $daoName::tableCreation($this->dbHandle);
         $this->dbHandle->query($sql);
     }
+
+    public function needsSeeding(): bool {
+        $vereinTableName = VereinDAO::tableName($this->dbHandle);
+        $tableExists = $this->dbHandle->get_var("SELECT EXISTS (SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA='testdb' AND TABLE_NAME='$vereinTableName')");
+        $seedingNeeded = !$tableExists;
+        return $seedingNeeded;
+    }
 }
 
 ?>
