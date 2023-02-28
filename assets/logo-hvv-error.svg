@@ -11,6 +11,7 @@
    sodipodi:docname="logo-hvv-error.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
   <sodipodi:namedview
@@ -25,8 +26,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="1.4142136"
-     inkscape:cx="105.00536"
-     inkscape:cy="2.8284271"
+     inkscape:cx="77.42819"
+     inkscape:cy="3.5355338"
      inkscape:window-width="3840"
      inkscape:window-height="1009"
      inkscape:window-x="-8"
@@ -35,12 +36,33 @@
      inkscape:current-layer="layer1" />
   <defs
      id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient3988">
+      <stop
+         style="stop-color:#ff1e1e;stop-opacity:1;"
+         offset="0"
+         id="stop3984" />
+      <stop
+         style="stop-color:#ff8080;stop-opacity:0;"
+         offset="1"
+         id="stop3986" />
+    </linearGradient>
     <rect
        x="-141.25"
        y="47.25"
        width="23.75"
        height="22.25"
        id="rect557" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient3988"
+       id="linearGradient3990"
+       x1="-12.536403"
+       y1="13.555724"
+       x2="160.0672"
+       y2="61.445175"
+       gradientUnits="userSpaceOnUse" />
   </defs>
   <g
      inkscape:label="Ebene 1"
@@ -49,10 +71,10 @@
      transform="translate(-74.659007,-71.177078)">
     <path
        id="path440"
-       style="fill:#ff8080;stroke-width:1.32292;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:10.8"
-       transform="matrix(0.27224823,0.05074488,-0.05074488,0.27224823,93.031791,86.165844)"
+       style="fill:url(#linearGradient3990);stroke-width:1.32292;stroke-linecap:round;stroke-linejoin:round;stroke-dashoffset:10.8;fill-opacity:1"
        d="M 94.272471,89.965184 22.775502,103.58804 -24.612561,48.000442 -0.46024392,-20.888994 71.232707,-34.294416 118.80279,21.268982 Z"
-       sodipodi:nodetypes="ccccccc" />
+       sodipodi:nodetypes="ccccccc"
+       transform="matrix(0.27224823,0.05074488,-0.05074488,0.27224823,93.031791,86.165844)" />
     <path
        sodipodi:type="star"
        style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.32292;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-dashoffset:2.8575"
@@ -68,14 +90,14 @@
        inkscape:rounded="-0.7"
        inkscape:randomized="0"
        d="M 71.652591,98.522314 C 88.956692,88.240167 25.343277,89.038382 42.899928,98.883099 60.456579,108.72782 27.958597,54.036091 28.211147,74.162956 28.463697,94.28982 59.579129,38.799879 42.275029,49.082026 24.970928,59.364173 88.584343,58.565957 71.027692,48.72124 53.471041,38.876523 85.969023,93.568248 85.716473,73.441384 85.463923,53.31452 54.348491,108.80446 71.652591,98.522314 Z"
-       transform="rotate(0.69518394,-1912.5535,3968.6954)" />
+       transform="rotate(0.69518394,-1912.5538,3968.6954)" />
     <text
        xml:space="preserve"
        transform="matrix(1.3756982,1.3756982,-1.3756982,1.3756982,370.37619,205.68141)"
        id="text555"
-       style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect557);fill:#ffffff"><tspan
+       style="font-size:18.6667px;line-height:1.25;font-family:sans-serif;white-space:pre;shape-inside:url(#rect557);display:inline;fill:#ffffff"><tspan
          x="-141.25"
          y="64.234367"
-         id="tspan570">+</tspan></text>
+         id="tspan6315">+</tspan></text>
   </g>
 </svg>
