@@ -7,8 +7,8 @@ if((include_once __DIR__.'/config.php') != TRUE){
 session_start();
 if(!isset($_SESSION['logged_in'])){
     // need to login
-    echo "Login benötigt";
-    exit;
+    header("Location: ./login");
+    die();
 }
 echo "Eingeloggt";
 
