@@ -24,8 +24,10 @@ final class DBSeederTest extends TestCase {
 
     public function testCreatesHeimverein(): void{
         // arrange
-        define( 'VEREIN_NAME', 'Turnerkreis Nippes' );
-        define( 'VEREIN_NULIGA_ID', '74851' );
+        if(!defined('VEREIN_NAME')){
+            define( 'VEREIN_NAME', 'Turnerkreis Nippes' );
+            define( 'VEREIN_NULIGA_ID', '74851' );
+        }
         $this->dbScheme->seed();
         $this->dbSeeder = new DBSeeder($this->dbHandle);
 
@@ -45,5 +47,45 @@ final class DBSeederTest extends TestCase {
         $actualHeimVerein = $this->dbHandle->get_row_as_array("SELECT * FROM $vereinTableName");
         unset($actualHeimVerein['id']); // ID ist egal
         $this->assertEquals($expectedHeimVerein, $actualHeimVerein);
+    }
+
+    public function testNeedsSeedingForEmptyDatabase(): void {
+        // arrange
+        $this->dbSeeder = new DBSeeder($this->dbHandle);
+
+        // act
+        $seedingNeeded = $this->dbSeeder->needsSeeding();
+
+        // assert
+        $this->assertTrue($seedingNeeded);
+    }
+
+    public function testNeedsSeedingForEmptyScheme(): void {
+        // arrange
+        $this->dbScheme->seed();
+        $this->dbSeeder = new DBSeeder($this->dbHandle);
+
+        // act
+        $seedingNeeded = $this->dbSeeder->needsSeeding();
+
+        // assert
+        $this->assertTrue($seedingNeeded);
+    }
+
+    public function testNeedsNoSeedingForSeededDatabase(): void {
+        // arrange
+        if(!defined('VEREIN_NAME')){
+            define( 'VEREIN_NAME', 'Turnerkreis Nippes' );
+            define( 'VEREIN_NULIGA_ID', '74851' );
+        }
+        $this->dbScheme->seed();
+        $this->dbSeeder = new DBSeeder($this->dbHandle);
+        $this->dbSeeder->seed();
+
+        // act
+        $seedingNeeded = $this->dbSeeder->needsSeeding();
+
+        // assert
+        $this->assertFalse($seedingNeeded);
     }
 }

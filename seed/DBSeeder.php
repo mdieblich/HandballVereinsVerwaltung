@@ -19,5 +19,15 @@ class DBSeeder {
         $vereinDAO = new VereinDAO($this->dbHandle);
         $vereinDAO->insert($heimVerein);
     }
+
+    public function needsSeeding(): bool {
+        try {
+            $vereinDAO = new VereinDAO($this->dbHandle);
+            $heimVerein = $vereinDAO->getHeimVerein();
+            return empty($heimVerein);
+        } catch (mysqli_sql_exception){
+            return true;
+        }
+    }
 }
 ?>
