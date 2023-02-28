@@ -56,8 +56,9 @@ class DBScheme {
     }
 
     public function needsSeeding(): bool {
+        $dbName = $this->dbHandle->getDBName();
         $vereinTableName = VereinDAO::tableName($this->dbHandle);
-        $tableExists = $this->dbHandle->get_var("SELECT EXISTS (SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA='testdb' AND TABLE_NAME='$vereinTableName')");
+        $tableExists = $this->dbHandle->get_var("SELECT EXISTS (SELECT TABLE_NAME FROM information_schema.TABLES WHERE TABLE_SCHEMA='$dbName' AND TABLE_NAME='$vereinTableName')");
         $seedingNeeded = !$tableExists;
         return $seedingNeeded;
     }
