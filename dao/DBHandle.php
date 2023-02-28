@@ -5,15 +5,21 @@ class DBHandle{
     private $mysqli;
     public string $prefix;
     public ?int $insert_id;
+    private string $dbName;
 
     public function __construct($databaseHost, $databaseUsername, $databasePassword, $databaseName){
         mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
         $this->mysqli = new mysqli($databaseHost, $databaseUsername, $databasePassword, $databaseName);
         $this->prefix = "handball_";
+        $this->dbName = $databaseName;
     }
 
     public static function createFromConfig(): DBHandle {
         return new DBHandle(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+    }
+
+    public function getDBName(): string {
+        return $this->dbName;
     }
 
     public function query(string $sql): bool {
