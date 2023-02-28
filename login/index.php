@@ -3,6 +3,13 @@ if((include_once __DIR__.'/../config.php') != TRUE){
     echo "Die config.php muss noch erstellt werden. Bitte sehen Sie dazu in die config-sample.php.";
     exit;
 }
+session_start();
+if(isset($_SESSION['logged_in'])){
+    // bereits angemeldet, dann Weiterleitung zur Startseite
+    header("Location: ..");
+    die();
+}
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -78,7 +85,7 @@ if((include_once __DIR__.'/../config.php') != TRUE){
   <body class="text-center">
     
 <main class="form-signin w-100 m-auto">
-  <form>
+  <form action="check-login.php" method="post">
     <img class="mb-4" src="../assets/logo-hvv.svg" alt="" width="72" height="57">
     <h1 class="h3 mb-3 fw-normal"><?= VEREIN_NAME ?><br>Verwaltung</h1>
 
@@ -87,7 +94,7 @@ if((include_once __DIR__.'/../config.php') != TRUE){
       <label for="floatingInput">Email</label>
     </div>
     <div class="form-floating">
-      <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <input type="password" name="password" class="form-control" id="floatingPassword" placeholder="Password">
       <label for="floatingPassword">Passwort</label>
     </div>
 
