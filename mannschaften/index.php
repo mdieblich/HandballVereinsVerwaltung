@@ -51,8 +51,9 @@ if(!isset($_SESSION['logged_in'])){
                                                         </div>
                                                     </div>
                                                     <div class="col">
-                                                        <div class="card shadow-sm text-center">
-                                                            3. Damen
+                                                        <div class="card shadow-sm text-center text-bg-primary">
+                                                            + <br>
+                                                            NEU
                                                         </div>
                                                     </div>
                                                 </div>
